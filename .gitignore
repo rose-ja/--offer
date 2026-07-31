@@ -1,2 +1,7 @@
 .claude
 .workbuddy
+assets/
+.learning-records
+lessons/
+reference/
+*.md
