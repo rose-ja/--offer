@@ -1,7 +1,9 @@
 .claude
 .workbuddy
 assets/
-.learning-records
 lessons/
 reference/
-*.md
+learning-records/
+MISSION.md
+NOTES.md
+RESOURCES.md

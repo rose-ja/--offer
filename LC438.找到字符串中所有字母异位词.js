@@ -4,22 +4,32 @@
  * @return {number[]}
  */
 var findAnagrams = function (s, p) {
-  const len = p.length;
-  const arrP = new Array(26).fill(0);
-  for (const c of p) {
-    arrP[c.charCodeAt() - 'a'.charCodeAt()]++;
+  const arr1 = new Array(26).fill(0);
+  for (let ch of p) {
+    arr1[ch.charCodeAt() - 'a'.charCodeAt()]++;
   }
 
-  const arrS = new Array(26).fill(0);
-  const arr = [];
   let left = 0;
+  let ans = [];
+  const arr2 = new Array(26).fill(0);
   for (let right = 0; right < s.length; right++) {
-    arrS[s[right].charCodeAt() - 'a'.charCodeAt()]++;
-    left = right + 1 - len;
+    arr2[s[right].charCodeAt() - 'a'.charCodeAt()]++;
+    left = right - p.length + 1;
     if (left < 0) continue;
-    if (_.isEqual(arrP, arrS)) arr.push(left);
-    arrS[s[left].charCodeAt() - 'a'.charCodeAt()]--;
+    if (isEqual(arr1, arr2)) ans.push(left);
+    arr2[s[left].charCodeAt() - 'a'.charCodeAt()]--;
   }
 
-  return arr;
+  return ans;
 };
+
+function isEqual(arr1, arr2) {
+  if (arr1.length !== arr2.length) return false;
+  for (let i = 0; i < arr1.length; i++) {
+    if (arr1[i] !== arr2[i]) return false;
+  }
+  return true;
+}
+
+console.log(findAnagrams('cbaebabacd', 'abc'));
+console.log(findAnagrams('abab', 'ab'));
