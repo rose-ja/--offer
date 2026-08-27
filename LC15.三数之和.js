@@ -3,29 +3,39 @@
  * @return {number[][]}
  */
 var threeSum = function (nums) {
-    nums.sort((a, b) => a - b);
-    const arr = [];
+  nums.sort((a, b) => a - b);
+  let arr = [];
 
-    if (nums.length < 3) return arr;
-    for (let i = 0; i < nums.length - 2; i++) {
-        if (i > 0 && nums[i] === nums[i - 1]) continue;
-        if (nums[i] + nums[nums.length - 1] + nums[nums.length - 2] < 0) continue;
-        if (nums[i] + nums[i + 1] + nums[i + 2] > 0) break;
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] + nums[i + 1] + nums[i + 2] > 0) break;
+    if (nums[i] + nums[nums.length - 1] + nums[nums.length - 2] < 0) continue;
+    if (i > 0 && nums[i] === nums[i - 1]) continue;
 
-        let l = i + 1, r = nums.length - 1;
-        while (l < r) {
-            const sum = nums[i] + nums[l] + nums[r];
+    let left = i + 1,
+      right = nums.length - 1;
 
-            if (sum === 0){
-                arr.push([nums[i], nums[l], nums[r]]);
-                while (l < r && nums[l] === nums[l + 1]) l++;
-                while (l < r && nums[r] === nums[r - 1]) r--;
-                l++;
-                r--;
-            } 
-            else if (sum < 0) l++;
-            else r--;
-        }
+    while (left < right) {
+      const sum = nums[i] + nums[left] + nums[right];
+      if (sum === 0) {
+        arr.push([nums[i], nums[left], nums[right]]);
+        while (left < right && nums[left] === nums[left + 1]) left++;
+        while (left < right && nums[right] === nums[right - 1]) right--;
+        left++;
+        right--;
+      } else if (sum < 0) {
+        left++;
+      } else {
+        right--;
+      }
     }
-    return arr;
+  }
+
+  return arr;
 };
+
+console.log(threeSum([-1, 0, 1, 2, -1, -4]));
+// [[-1, -1, 2], [-1, 0, 1]]
+
+console.log(threeSum([0, 1, 1])); // []
+console.log(threeSum([0, 0, 0, 0])); // [[0, 0, 0]]
+console.log(threeSum([])); // []
