@@ -3,23 +3,28 @@
  * @return {number[][]}
  */
 var subsets = function (nums) {
-  const result = [],
-    path = [];
+  const results = [];
+  const path = [];
 
-  // 一条分支“选它”，另一条分支“不选它”
-  function dfs(index) {
+  function backtrack(index) {
     if (index === nums.length) {
-      result.push([...path]);
+      results.push([...path]);
       return;
     }
 
+    backtrack(index + 1);
+
     path.push(nums[index]);
-    dfs(index + 1);
+    backtrack(index + 1);
     path.pop();
-
-    dfs(index + 1);
   }
-  dfs(0);
 
-  return result;
+  backtrack(0);
+  return results;
 };
+
+console.log(subsets([1, 2, 3]));
+// [[], [3], [2], [2, 3], [1], [1, 3], [1, 2], [1, 2, 3]]
+console.log(subsets([0])); // [[], [0]]
+console.log(subsets([])); // [[]]
+console.log(subsets([1, 1])); // []：LC78 的输入不允许重复数字
