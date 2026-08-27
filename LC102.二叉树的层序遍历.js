@@ -1,29 +1,45 @@
+class TreeNode {
+  constructor(value, left = null, right = null) {
+    this.val = value;
+    this.left = left;
+    this.right = right;
+  }
+}
+
 /**
- * Definition for a binary tree node.
- * function TreeNode(val, left, right) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.left = (left===undefined ? null : left)
- *     this.right = (right===undefined ? null : right)
- * }
+ * 按从上到下、从左到右的顺序，返回二叉树每一层的节点值。
+ *
+ * @param {TreeNode | null} root
+ * @returns {number[][]}
  */
-/**
- * @param {TreeNode} root
- * @return {number[][]}
- */
-var levelOrder = function (root) {
+function levelOrder(root) {
   if (root === null) return [];
-  let cur = [root],
-    ans = [];
+
+  let cur = [root];
+  const levels = [];
+
   while (cur.length) {
-    let vals = [],
-      next = [];
+    const values = [];
+    const next = [];
+
     for (let node of cur) {
-      vals.push(node.val);
+      values.push(node.val);
       if (node.left) next.push(node.left);
       if (node.right) next.push(node.right);
     }
     cur = next;
-    ans.push(vals);
+    levels.push(values);
   }
-  return ans;
-};
+
+  return levels;
+}
+
+const root = new TreeNode(
+  3,
+  new TreeNode(9),
+  new TreeNode(20, new TreeNode(15), new TreeNode(7)),
+);
+
+console.log(levelOrder(root)); // [[3], [9, 20], [15, 7]]
+console.log(levelOrder(null)); // []
+console.log(levelOrder(new TreeNode(1))); // [[1]]
