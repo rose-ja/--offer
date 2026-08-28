@@ -4,20 +4,21 @@
  */
 var numIslands = function (grid) {
   let count = 0;
-  const sink = (r, c) => {
+  const sink = (s, c) => {
     if (
-      r < 0 ||
-      r >= grid.length ||
+      s < 0 ||
       c < 0 ||
+      s >= grid.length ||
       c >= grid[0].length ||
-      grid[r][c] !== '1'
+      grid[s][c] !== '1'
     )
       return;
-    grid[r][c] = '0';
-    sink(r - 1, c);
-    sink(r, c - 1);
-    sink(r + 1, c);
-    sink(r, c + 1);
+
+    grid[s][c] = '0';
+    sink(s + 1, c);
+    sink(s - 1, c);
+    sink(s, c + 1);
+    sink(s, c - 1);
   };
 
   for (let i = 0; i < grid.length; i++) {
@@ -31,3 +32,19 @@ var numIslands = function (grid) {
 
   return count;
 };
+
+console.log(
+  numIslands([
+    ['1', '1', '0', '1'],
+    ['1', '0', '0', '0'],
+    ['0', '0', '1', '1'],
+  ]),
+); // 3
+console.log(
+  numIslands([
+    ['0', '0'],
+    ['0', '0'],
+  ]),
+); // 0
+console.log(numIslands([['1']])); // 1
+console.log(numIslands([])); // 0
